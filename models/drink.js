@@ -96,6 +96,7 @@ const addSchema = Joi.object({
     title: Joi.string().required(),
     measure: Joi.string().required(),
   }),
+  favorite: Joi.boolean(),
 });
 
 const schema = {

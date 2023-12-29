@@ -10,7 +10,9 @@ const router = express.Router();
 
 router.get("/mainpage", ctrl.getAll);
 
-router.post("/own/add", validateBody(schema.addSchema), ctrl.add);
+router.post("/own/add", validateBody(schema.addSchema), ctrl.addOwn);
+
+router.get("/own", ctrl.getOwn);
 
 router.get("/:id", isValidId, ctrl.getById);
 

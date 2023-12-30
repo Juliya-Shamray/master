@@ -102,6 +102,7 @@ const addSchema = Joi.object({
 const schema = {
   addSchema,
 };
+
 drinkSchema.post("save", handleMongooseError);
 
 const Drink = model("drink", drinkSchema);

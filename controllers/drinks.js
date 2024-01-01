@@ -3,8 +3,11 @@ const { Drink } = require("../models/drink");
 const { ctrlWrapper, HttpError } = require("../helpers");
 
 const getAll = async (req, res) => {
-  const result = await Drink.find({}, "-createdAt -updatedAt");
-  res.json(result);
+  const { page = 1, limit = 9 } = req.query;
+  const skip = (page - 1) * limit;
+  const totalCount = await Drink.countDocuments();
+  const data = await Drink.find({}, "-createdAt -updatedAt", { skip, limit });
+  res.json({ data, totalCount });
 };
 
 const getById = async (req, res) => {
@@ -17,12 +20,19 @@ const getById = async (req, res) => {
 };
 
 const addOwn = async (req, res) => {
-  const result = await Drink.create(req.body);
+  const { _id: owner } = req.user;
+  const result = await Drink.create({ ...req.body, owner });
   res.status(201).json(result);
 };
 
 const getOwn = async (req, res) => {
-  const result = await Drink.find({}, "-createdAt -updatedAt");
+  const { page = 1, limit = 9 } = req.query;
+  const skip = (page - 1) * limit;
+  const { _id: owner } = req.user;
+  const result = await Drink.find({ owner }, "-createdAt -updatedAt", {
+    skip,
+    limit,
+  });
   res.json(result);
 };
 

@@ -4,8 +4,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-const { SECRET_KEY } = process.env;
-console.log(SECRET_KEY);
+const { SECRET_KEY_JWT } = process.env;
 
 const signup = async (req, res) => {
   const { email, password } = req.body;
@@ -41,11 +40,21 @@ const signin = async (req, res) => {
   const payload = {
     id: user._id,
   };
-  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "10h" });
+  const token = jwt.sign(payload, SECRET_KEY_JWT, { expiresIn: "24h" });
+  await User.findByIdAndUpdate(user._id, { token });
   res.json({ token });
+};
+
+const signout = async (req, res) => {
+  const { _id } = req.user;
+  await User.findByIdAndUpdate(_id, { token: "" });
+  res.json({
+    message: "Signout success",
+  });
 };
 
 module.exports = {
   signup: ctrlWrapper(signup),
   signin: ctrlWrapper(signin),
+  signout: ctrlWrapper(signout),
 };

@@ -71,6 +71,11 @@ const drinkSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "user",
+      required: true,
+    },
   },
   {
     versionKey: false,
@@ -92,10 +97,12 @@ const addSchema = Joi.object({
   glass: Joi.string().required(),
   instructions: Joi.string().required(),
   drinkThumb: Joi.string().required(),
-  ingredients: Joi.object({
-    title: Joi.string().required(),
-    measure: Joi.string().required(),
-  }),
+  ingredients: Joi.array().items(
+    Joi.object({
+      title: Joi.string().required(),
+      measure: Joi.string().required(),
+    })
+  ),
   favorite: Joi.boolean(),
 });
 

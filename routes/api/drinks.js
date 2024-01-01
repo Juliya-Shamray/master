@@ -4,16 +4,21 @@ const ctrl = require("../../controllers/drinks");
 const { schema } = require("../../models/drink");
 
 const validateBody = require("../../middlewares/validateBody");
-const { isValidId } = require("../../middlewares");
+const { isValidId, authenticate } = require("../../middlewares");
 
 const router = express.Router();
 
-router.get("/mainpage", ctrl.getAll);
+router.get("/mainpage", authenticate, ctrl.getAll);
 
-router.post("/own/add", validateBody(schema.addSchema), ctrl.addOwn);
+router.post(
+  "/own/add",
+  authenticate,
+  validateBody(schema.addSchema),
+  ctrl.addOwn
+);
 
-router.get("/own", ctrl.getOwn);
+router.get("/own", authenticate, ctrl.getOwn);
 
-router.get("/:id", isValidId, ctrl.getById);
+router.get("/:id", authenticate, isValidId, ctrl.getById);
 
 module.exports = router;

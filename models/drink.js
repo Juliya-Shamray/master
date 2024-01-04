@@ -12,19 +12,27 @@ const drinkSchema = new Schema(
     },
     drinkAlternate: {
       type: String,
-      required: true,
+      default: "Sorry, not specified",
     },
-    tags: String,
-    video: String,
+    tags: {
+      type: String,
+      default: "Sorry, not specified",
+    },
+    video: {
+      type: String,
+      default: "Sorry, not specified",
+    },
     category: {
       type: String,
       required: true,
     },
-    IBA: String,
+    IBA: {
+      type: String,
+      default: "Sorry, not specified",
+    },
     alcoholic: {
       type: String,
       enum: alcoholicList,
-      required: true,
     },
     glass: {
       type: String,
@@ -96,7 +104,7 @@ const addSchema = Joi.object({
     .valid(...alcoholicList),
   glass: Joi.string().required(),
   instructions: Joi.string().required(),
-  drinkThumb: Joi.string().required(),
+  drinkThumb: Joi.any().required(),
   ingredients: Joi.array().items(
     Joi.object({
       title: Joi.string().required(),
@@ -106,8 +114,13 @@ const addSchema = Joi.object({
   favorite: Joi.boolean(),
 });
 
+const removeSchema = Joi.object({
+  id: Joi.string().required(),
+});
+
 const schema = {
   addSchema,
+  removeSchema,
 };
 
 drinkSchema.post("save", handleMongooseError);

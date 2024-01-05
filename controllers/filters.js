@@ -4,20 +4,9 @@ const { Drink } = require("../models/drink");
 const Ingredient = require("../models/ingredient");
 
 const getIngredients = async (req, res) => {
-  const result = await Ingredient.aggregate([
-    {
-      $match: { title: { $exists: true, $ne: null } },
-    },
-    {
-      $group: {
-        _id: { $toLower: "$title" },
-        count: { $sum: 1 },
-      },
-    },
-  ]);
+  const result = await Ingredient.find();
 
-  const uniqueIngredients = result.map((ingredient) => ingredient._id);
-  res.json(uniqueIngredients);
+  res.json(result);
 };
 
 const getCategories = async (req, res) => {

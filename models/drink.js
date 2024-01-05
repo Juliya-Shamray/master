@@ -57,19 +57,16 @@ const drinkSchema = new Schema(
       type: String,
       required: true,
     },
-    ingredients: {
-      type: [
-        {
+    ingredients: [
+      {
+        _id: {
           type: Schema.Types.ObjectId,
           ref: "ingredient",
-          measure: {
-            type: String,
-            required: true,
-          },
         },
-      ],
-      required: true,
-    },
+        measure: String,
+      },
+    ],
+
     shortDescription: String,
     favorite: {
       type: Boolean,

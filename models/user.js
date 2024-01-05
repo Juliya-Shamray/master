@@ -32,6 +32,10 @@ const userSchema = new Schema(
       type: String,
       default: "",
     },
+    isAdult: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     versionKey: false,
@@ -53,6 +57,7 @@ const signupSchema = Joi.object({
 const signinSchema = Joi.object({
   email: Joi.string().pattern(emailRexExp).required(),
   password: Joi.string().min(8).required(),
+  isAdult: Joi.boolean().required(),
 });
 
 const schemas = {

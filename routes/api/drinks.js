@@ -1,4 +1,4 @@
-const express = require("express");
+const router = require("express").Router();
 
 const ctrl = require("../../controllers/drinks");
 const { schema } = require("../../models/drink");
@@ -6,8 +6,6 @@ const { schema } = require("../../models/drink");
 const validateBody = require("../../middlewares/validateBody");
 const { isValidId, authenticate } = require("../../middlewares");
 const { upload } = require("../../middlewares/upload");
-
-const router = express.Router();
 
 router.get("/mainpage", authenticate, ctrl.getAll);
 

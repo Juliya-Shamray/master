@@ -38,7 +38,10 @@ const drinkSchema = new Schema(
       type: String,
       required: true,
     },
-    description: String,
+    description: {
+      type: String,
+      required: true,
+    },
     instructions: {
       type: String,
       required: true,
@@ -57,10 +60,8 @@ const drinkSchema = new Schema(
     ingredients: {
       type: [
         {
-          title: {
-            type: String,
-            required: true,
-          },
+          type: Schema.Types.ObjectId,
+          ref: "ingredient",
           measure: {
             type: String,
             required: true,
@@ -68,12 +69,7 @@ const drinkSchema = new Schema(
         },
       ],
       required: true,
-      validate: [
-        arrayMinItems,
-        "Ingredients array must have at least one item",
-      ],
     },
-
     shortDescription: String,
     favorite: {
       type: Boolean,
@@ -91,13 +87,9 @@ const drinkSchema = new Schema(
   }
 );
 
-function arrayMinItems(arr) {
-  return arr.length > 0;
-}
-
 const addSchema = Joi.object({
   drink: Joi.string().required(),
-  drinkAlternate: Joi.string().required(),
+  description: Joi.string().required(),
   category: Joi.string().required(),
   alcoholic: Joi.string()
     .required()

@@ -11,8 +11,9 @@ const { cloudinary } = require("../middlewares/upload");
 //   res.json({ data, totalCount });
 // };
 
-const getAll = async (req, res) => {
+const getRandom = async (req, res) => {
   const { isAdult } = req.user;
+  console.log(isAdult);
 
   let categoryFilters = [];
 
@@ -25,10 +26,10 @@ const getAll = async (req, res) => {
     ];
   } else {
     categoryFilters = [
-      { category: "Ordinary Drink", alcoholic: "Non_Alcoholic" },
-      { category: "Cocktail", alcoholic: "Non_Alcoholic" },
-      { category: "Shake", alcoholic: "Non_Alcoholic" },
-      { category: "Other/Unknown", alcoholic: "Non_Alcoholic" },
+      { category: "Ordinary Drink", alcoholic: "Non alcoholic" },
+      { category: "Cocktail", alcoholic: "Non alcoholic" },
+      { category: "Shake", alcoholic: "Non alcoholic" },
+      { category: "Other/Unknown", alcoholic: "Non alcoholic" },
     ];
   }
   const drinks = await Promise.all(
@@ -97,7 +98,7 @@ const removeOwn = async (req, res) => {
 };
 
 module.exports = {
-  getAll: ctrlWrapper(getAll),
+  getRandom: ctrlWrapper(getRandom),
   addOwn: ctrlWrapper(addOwn),
   getById: ctrlWrapper(getById),
   getOwn: ctrlWrapper(getOwn),

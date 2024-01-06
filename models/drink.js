@@ -59,7 +59,7 @@ const drinkSchema = new Schema(
     },
     ingredients: [
       {
-        _id: {
+        id: {
           type: Schema.Types.ObjectId,
           ref: "ingredient",
         },

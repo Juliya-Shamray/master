@@ -26,7 +26,8 @@ const signup = async (req, res) => {
 };
 
 const signin = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, isAdult } = req.body;
+
   const user = await User.findOne({ email });
   if (!user) {
     throw HttpError(401, "Email or password is not valid");
@@ -41,7 +42,8 @@ const signin = async (req, res) => {
     id: user._id,
   };
   const token = jwt.sign(payload, SECRET_KEY_JWT, { expiresIn: "24h" });
-  await User.findByIdAndUpdate(user._id, { token });
+  await User.findByIdAndUpdate(user._id, { token, isAdult });
+
   res.json({ token });
 };
 

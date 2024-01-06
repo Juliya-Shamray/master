@@ -7,7 +7,7 @@ const validateBody = require("../../middlewares/validateBody");
 const { isValidId, authenticate } = require("../../middlewares");
 const { upload } = require("../../middlewares/upload");
 
-router.get("/mainpage", authenticate, ctrl.getAll);
+router.get("/mainpage", authenticate, ctrl.getRandom);
 
 router.post(
   "/own/add",

@@ -36,6 +36,11 @@ const userSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    avatar: {
+      type: String,
+      default:
+        "https://res.cloudinary.com/daxu9ohay/image/upload/v1704563691/samples/avatars/user_sjc7p0.png",
+    },
   },
   {
     versionKey: false,
@@ -60,9 +65,15 @@ const signinSchema = Joi.object({
   isAdult: Joi.boolean().required(),
 });
 
+const updateUserSchema = Joi.object({
+  name: Joi.string(),
+  avatar: Joi.string(),
+});
+
 const schemas = {
   signupSchema,
   signinSchema,
+  updateUserSchema,
 };
 
 module.exports = {

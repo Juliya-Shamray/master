@@ -38,8 +38,11 @@ const userSchema = new Schema(
     },
     avatar: {
       type: String,
-      default:
-        "https://res.cloudinary.com/daxu9ohay/image/upload/v1704563691/samples/avatars/user_sjc7p0.png",
+      default: null,
+    },
+    avatarPublicId: {
+      type: String,
+      default: null,
     },
   },
   {

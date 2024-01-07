@@ -4,8 +4,7 @@ const ctrl = require("../../controllers/drinks");
 const { schema } = require("../../models/drink");
 
 const validateBody = require("../../middlewares/validateBody");
-const { isValidId, authenticate } = require("../../middlewares");
-const { upload } = require("../../middlewares/upload");
+const { isValidId, authenticate, upload } = require("../../middlewares");
 
 router.get("/mainpage", authenticate, ctrl.getRandom);
 

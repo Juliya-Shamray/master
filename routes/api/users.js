@@ -1,7 +1,7 @@
 const router = require("express").Router();
-const { authenticate, validateBody } = require("../../middlewares");
+const { authenticate, validateBody, upload } = require("../../middlewares");
 const ctrl = require("../../controllers/users");
-const { upload } = require("../../middlewares/upload");
+
 const { schemas } = require("../../models/user");
 
 router.get("/current", authenticate, ctrl.getCurrent);

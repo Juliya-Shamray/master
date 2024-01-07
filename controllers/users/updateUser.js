@@ -1,18 +1,9 @@
-const { ctrlWrapper } = require("../helpers");
-const { cloudinary } = require("../middlewares/upload");
-const { User } = require("../models/user");
+const { ctrlWrapper, cloudinary } = require("../../helpers");
+const { User } = require("../../models/user");
 const fs = require("fs/promises");
 
-const getCurrent = async (req, res) => {
-  const { name, email } = req.user;
-  res.json({
-    name,
-    email,
-  });
-};
-
 const updateUser = async (req, res) => {
-  const { _id } = req.user;
+  const { _id, avatar, avatarPublicId } = req.user;
   const { name } = req.body;
 
   let avatarUrl = "";
@@ -21,12 +12,16 @@ const updateUser = async (req, res) => {
   if (req.file) {
     const { path: tmpPath } = req.file;
 
-    if (req.user.avatar) {
-      publicIdToDelete = req.user.avatarPublicId;
+    if (avatar) {
+      publicIdToDelete = avatarPublicId;
     }
     const uploadResult = await cloudinary.uploader.upload(tmpPath, {
       folder: "avatars",
       transformation: [{ width: 100, height: 100, crop: "fill" }],
+    });
+
+    await User.findByIdAndUpdate(_id, {
+      avatarPublicId: uploadResult.public_id,
     });
 
     avatarUrl = uploadResult.secure_url;
@@ -47,6 +42,5 @@ const updateUser = async (req, res) => {
 };
 
 module.exports = {
-  getCurrent: ctrlWrapper(getCurrent),
   updateUser: ctrlWrapper(updateUser),
 };

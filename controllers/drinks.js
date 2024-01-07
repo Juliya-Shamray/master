@@ -1,7 +1,6 @@
 const fs = require("fs");
 const { Drink } = require("../models/drink");
-const { ctrlWrapper, HttpError } = require("../helpers");
-const { cloudinary } = require("../middlewares/upload");
+const { ctrlWrapper, HttpError, cloudinary } = require("../helpers");
 
 // const getAll = async (req, res) => {
 //   const { page = 1, limit = 9 } = req.query;
@@ -13,7 +12,6 @@ const { cloudinary } = require("../middlewares/upload");
 
 const getRandom = async (req, res) => {
   const { isAdult } = req.user;
-  console.log(isAdult);
 
   let categoryFilters = [];
 

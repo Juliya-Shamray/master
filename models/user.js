@@ -44,6 +44,14 @@ const userSchema = new Schema(
       type: String,
       default: null,
     },
+    verify: {
+      type: Boolean,
+      default: false,
+    },
+    verificationCode: {
+      type: String,
+      default: "",
+    },
   },
   {
     versionKey: false,
@@ -73,10 +81,15 @@ const updateUserSchema = Joi.object({
   avatar: Joi.string(),
 });
 
+const emailSchema = Joi.object({
+  email: Joi.string().pattern(emailRexExp).required(),
+});
+
 const schemas = {
   signupSchema,
   signinSchema,
   updateUserSchema,
+  emailSchema,
 };
 
 module.exports = {

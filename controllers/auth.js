@@ -1,10 +1,11 @@
-const { ctrlWrapper, HttpError } = require("../helpers");
+const { ctrlWrapper, HttpError, sendEmail } = require("../helpers");
 const { User } = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { nanoid } = require("nanoid");
 require("dotenv").config();
 
-const { SECRET_KEY_JWT } = process.env;
+const { SECRET_KEY_JWT, BASE_URL } = process.env;
 
 const signup = async (req, res) => {
   const { email, password } = req.body;
@@ -14,14 +15,68 @@ const signup = async (req, res) => {
   }
   const createHashPassword = await bcrypt.hash(password, 10);
 
+  const verificationCode = nanoid();
+
   const newUser = await User.create({
     ...req.body,
     password: createHashPassword,
+    verificationCode,
   });
+
+  const veryfiEmail = {
+    to: email,
+    subject: "Verify email",
+    html: `<a target="_blank" href ="${BASE_URL}/auth/verify/${verificationCode}"></a>`,
+  };
+
+  await sendEmail(veryfiEmail);
 
   res.status(201).json({
     name: newUser.name,
     email: newUser.email,
+  });
+};
+
+const verifyEmail = async (req, res) => {
+  const { verificationCode } = req.params;
+
+  const user = await User.findOne({ verificationCode });
+  if (!user) {
+    throw HttpError(401, "Email not found");
+  }
+
+  await User.findByIdAndUpdate(user._id, {
+    verify: true,
+    verificationCode: "",
+  });
+
+  res.json({
+    message: "Email was verified successfully",
+  });
+};
+
+const resendVerifyEmail = async (req, res) => {
+  const { email } = req.body;
+
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    throw HttpError(401, "Email not found");
+  }
+
+  if (user.verify) {
+    throw HttpError(401, "Email has already verified");
+  }
+  const veryfiEmail = {
+    to: email,
+    subject: "Verify email",
+    html: `<a target="_blank" href ="${BASE_URL}/auth/verify/${user.verificationCode}"></a>`,
+  };
+
+  await sendEmail(veryfiEmail);
+
+  res.json({
+    message: "Verify email send success",
   });
 };
 
@@ -31,6 +86,10 @@ const signin = async (req, res) => {
   const user = await User.findOne({ email });
   if (!user) {
     throw HttpError(401, "Email or password is not valid");
+  }
+
+  if (!user.verify) {
+    throw HttpError(401, "Email was not verified");
   }
 
   const passwordCompare = await bcrypt.compare(password, user.password);
@@ -59,4 +118,6 @@ module.exports = {
   signup: ctrlWrapper(signup),
   signin: ctrlWrapper(signin),
   signout: ctrlWrapper(signout),
+  verifyEmail: ctrlWrapper(verifyEmail),
+  resendVerifyEmail: ctrlWrapper(resendVerifyEmail),
 };

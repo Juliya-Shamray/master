@@ -14,4 +14,11 @@ router.patch(
   ctrl.updateUser
 );
 
+router.post(
+  "/subscribe",
+  authenticate,
+  validateBody(schemas.emailSchema),
+  ctrl.subscribe
+);
+
 module.exports = router;

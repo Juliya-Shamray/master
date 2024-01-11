@@ -6,7 +6,7 @@ const ctrl = require("../../controllers/auth");
 
 router.post("/signup", validateBody(schemas.signupSchema), ctrl.signup);
 
-router.get("/verify:verificationCode", ctrl.verifyEmail);
+router.get("/verify/:verificationCode", ctrl.verifyEmail);
 
 router.post(
   "/verify",

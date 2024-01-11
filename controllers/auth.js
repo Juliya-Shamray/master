@@ -23,13 +23,13 @@ const signup = async (req, res) => {
     verificationCode,
   });
 
-  const veryfiEmail = {
+  const verifyEmail = {
     to: email,
     subject: "Verify email",
-    html: `<a target="_blank" href ="${BASE_URL}/auth/verify/${verificationCode}"></a>`,
+    html: `<a target="_blank" href ='${BASE_URL}/api/auth/verify/${verificationCode}'>Click here to verify your email</a>`,
   };
 
-  await sendEmail(veryfiEmail);
+  await sendEmail(verifyEmail);
 
   res.status(201).json({
     name: newUser.name,
@@ -39,6 +39,7 @@ const signup = async (req, res) => {
 
 const verifyEmail = async (req, res) => {
   const { verificationCode } = req.params;
+  console.log(verificationCode);
 
   const user = await User.findOne({ verificationCode });
   if (!user) {
@@ -67,13 +68,13 @@ const resendVerifyEmail = async (req, res) => {
   if (user.verify) {
     throw HttpError(401, "Email has already verified");
   }
-  const veryfiEmail = {
+  const verifyEmail = {
     to: email,
     subject: "Verify email",
-    html: `<a target="_blank" href ="${BASE_URL}/auth/verify/${user.verificationCode}"></a>`,
+    html: `<a target="_blank" href ="${BASE_URL}/api/auth/verify/${user.verificationCode}">Click here to verify your email</a>`,
   };
 
-  await sendEmail(veryfiEmail);
+  await sendEmail(verifyEmail);
 
   res.json({
     message: "Verify email send success",

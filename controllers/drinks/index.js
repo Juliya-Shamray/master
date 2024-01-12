@@ -4,6 +4,7 @@ const { addOwn } = require("./addOwn");
 const { getOwn } = require("./getOwn");
 const { removeOwn } = require("./removeOwn");
 const { search } = require("./search.js");
+const { addToFav } = require("./addToFav");
 
 module.exports = {
   getRandom,
@@ -12,4 +13,5 @@ module.exports = {
   getOwn,
   removeOwn,
   search,
+  addToFav,
 };

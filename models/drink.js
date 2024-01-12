@@ -69,10 +69,6 @@ const drinkSchema = new Schema(
     ],
 
     shortDescription: String,
-    favorite: {
-      type: Boolean,
-      default: false,
-    },
     owner: {
       type: Schema.Types.ObjectId,
       ref: "user",
@@ -103,7 +99,7 @@ const addSchema = Joi.object({
   favorite: Joi.boolean(),
 });
 
-const removeSchema = Joi.object({
+const removeAndFavSchema = Joi.object({
   id: Joi.string().required(),
 });
 
@@ -117,8 +113,8 @@ const searchSchema = Joi.object({
 
 const schema = {
   addSchema,
-  removeSchema,
   searchSchema,
+  removeAndFavSchema,
 };
 
 drinkSchema.post("save", handleMongooseError);

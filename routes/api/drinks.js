@@ -19,7 +19,7 @@ router.get("/own", authenticate, ctrl.getOwn);
 router.delete(
   "/own/remove",
   authenticate,
-  validateBody(schema.removeSchema),
+  validateBody(schema.removeAndFavSchema),
   ctrl.removeOwn
 );
 
@@ -31,5 +31,12 @@ router.get(
 );
 
 router.get("/:id", authenticate, isValidId, ctrl.getById);
+
+router.post(
+  "/favorite/add",
+  authenticate,
+  validateBody(schema.removeAndFavSchema),
+  ctrl.addToFav
+);
 
 module.exports = router;

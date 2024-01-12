@@ -1,8 +1,6 @@
 const router = require("express").Router();
-
 const ctrl = require("../../controllers/drinks");
 const { schema } = require("../../models/drink");
-
 const validateBody = require("../../middlewares/validateBody");
 const { isValidId, authenticate, upload } = require("../../middlewares");
 
@@ -23,6 +21,13 @@ router.delete(
   authenticate,
   validateBody(schema.removeSchema),
   ctrl.removeOwn
+);
+
+router.get(
+  "/search",
+  authenticate,
+  validateBody(schema.searchSchema),
+  ctrl.search
 );
 
 router.get("/:id", authenticate, isValidId, ctrl.getById);

@@ -55,7 +55,6 @@ const drinkSchema = new Schema(
     instructionsUK: String,
     drinkThumb: {
       type: String,
-      required: true,
     },
     ingredients: [
       {
@@ -88,19 +87,17 @@ const drinkSchema = new Schema(
 drinkSchema.index({ owner: 1 });
 
 const addSchema = Joi.object({
-  drink: Joi.string().required(),
-  description: Joi.string().required(),
-  category: Joi.string().required(),
-  alcoholic: Joi.string()
-    .required()
-    .valid(...alcoholicList),
-  glass: Joi.string().required(),
-  instructions: Joi.string().required(),
-  drinkThumb: Joi.any().required(),
+  drink: Joi.string(),
+  description: Joi.string(),
+  category: Joi.string(),
+  alcoholic: Joi.string().valid(...alcoholicList),
+  glass: Joi.string(),
+  instructions: Joi.string(),
+  drinkThumb: Joi.string(),
   ingredients: Joi.array().items(
     Joi.object({
-      title: Joi.string().required(),
-      measure: Joi.string().required(),
+      title: Joi.string(),
+      measure: Joi.string(),
     })
   ),
   favorite: Joi.boolean(),
@@ -110,9 +107,18 @@ const removeSchema = Joi.object({
   id: Joi.string().required(),
 });
 
+const searchSchema = Joi.object({
+  category: Joi.string(),
+  ingredient: Joi.string(),
+  keyword: Joi.string(),
+  page: Joi.number().min(1),
+  limit: Joi.number().min(1),
+});
+
 const schema = {
   addSchema,
   removeSchema,
+  searchSchema,
 };
 
 drinkSchema.post("save", handleMongooseError);

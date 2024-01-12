@@ -6,7 +6,7 @@ const { removeOwn } = require("./removeOwn");
 const { search } = require("./search.js");
 const { addToFav } = require("./addToFav");
 const { removeFavorite } = require("./removeFavorite");
-const { getFavorite } = require("./getFavorite");
+const { getFavorite } = require("./getFavorite.js");
 
 module.exports = {
   getRandom,

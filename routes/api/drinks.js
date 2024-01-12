@@ -30,8 +30,6 @@ router.get(
   ctrl.search
 );
 
-router.get("/:id", authenticate, isValidId, ctrl.getById);
-
 router.post(
   "/favorite/add",
   authenticate,
@@ -47,5 +45,7 @@ router.delete(
   validateBody(schema.removeAndFavSchema),
   ctrl.removeFavorite
 );
+
+router.get("/:id", authenticate, isValidId, ctrl.getById);
 
 module.exports = router;

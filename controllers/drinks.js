@@ -46,11 +46,21 @@ const getRandom = async (req, res) => {
 
 const getById = async (req, res) => {
   const { id } = req.params;
-  const result = await Drink.findById(id);
+  const result = await Drink.findById(id).populate("ingredients.ingredientId");
   if (!result) {
     throw HttpError(404, "Not found");
   }
-  res.json(result);
+  const simplifiedIngredients = result.ingredients.map((ingredient) => ({
+    title: ingredient.title,
+    measure: ingredient.measure,
+    drinkThumb: ingredient.ingredientId.ingredientThumb,
+  }));
+
+  const simplifiedResult = {
+    ...result.toObject(),
+    ingredients: simplifiedIngredients,
+  };
+  res.json(simplifiedResult);
 };
 
 const addOwn = async (req, res) => {

@@ -59,11 +59,13 @@ const drinkSchema = new Schema(
     },
     ingredients: [
       {
-        id: {
+        title: String,
+        measure: String,
+        _id: false,
+        ingredientId: {
           type: Schema.Types.ObjectId,
           ref: "ingredient",
         },
-        measure: String,
       },
     ],
 
@@ -83,6 +85,7 @@ const drinkSchema = new Schema(
     timestamps: true,
   }
 );
+drinkSchema.index({ owner: 1 });
 
 const addSchema = Joi.object({
   drink: Joi.string().required(),

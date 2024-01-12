@@ -1,4 +1,4 @@
-const HttpError = require("../helpers/HttpError");
+const HttpError = require("../helpers");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const { SECRET_KEY_JWT } = process.env;

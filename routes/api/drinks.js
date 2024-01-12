@@ -39,4 +39,13 @@ router.post(
   ctrl.addToFav
 );
 
+router.get("/favorite", authenticate, ctrl.getFavorite);
+
+router.delete(
+  "/favorite/remove",
+  authenticate,
+  validateBody(schema.removeAndFavSchema),
+  ctrl.removeFavorite
+);
+
 module.exports = router;

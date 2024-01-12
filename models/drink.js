@@ -96,7 +96,6 @@ const addSchema = Joi.object({
       measure: Joi.string(),
     })
   ),
-  favorite: Joi.boolean(),
 });
 
 const removeAndFavSchema = Joi.object({

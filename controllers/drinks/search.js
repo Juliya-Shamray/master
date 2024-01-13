@@ -2,6 +2,7 @@ const { ctrlWrapper } = require("../../helpers");
 const { Drink } = require("../../models/drink");
 
 const search = async (req, res) => {
+  const { isAdult } = req.user;
   const {
     category = "",
     ingredient = "",
@@ -36,6 +37,7 @@ const search = async (req, res) => {
               },
             },
           },
+          isAdult ? {} : { alcoholic: "Non alcoholic" },
         ],
       },
     },
@@ -88,6 +90,7 @@ const search = async (req, res) => {
               },
             },
           },
+          isAdult ? {} : { alcoholic: "Non alcoholic" },
         ],
       },
     },

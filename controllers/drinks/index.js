@@ -7,6 +7,7 @@ const { search } = require("./search.js");
 const { addToFav } = require("./addToFav");
 const { removeFavorite } = require("./removeFavorite");
 const { getFavorite } = require("./getFavorite.js");
+const { getPopular } = require("./getPopular.js");
 
 module.exports = {
   getRandom,
@@ -18,4 +19,5 @@ module.exports = {
   addToFav,
   removeFavorite,
   getFavorite,
+  getPopular,
 };

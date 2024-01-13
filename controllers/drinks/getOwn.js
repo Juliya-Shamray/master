@@ -9,7 +9,12 @@ const getOwn = async (req, res) => {
     skip,
     limit,
   });
-  res.json(result);
+
+  const totalItemsCount = await Drink.countDocuments({ owner });
+  res.json({
+    data: result,
+    total: totalItemsCount,
+  });
 };
 
 module.exports = {

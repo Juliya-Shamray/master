@@ -3,9 +3,11 @@ const { Drink } = require("../../models/drink");
 const fs = require("fs/promises");
 
 const addOwn = async (req, res) => {
-  const { _id: owner } = req.user;
+  const { _id: owner, isAdult } = req.user;
 
   const { path: tmpPath } = req.file;
+
+  const alcoholic = isAdult ? req.body.alcoholic : "Non alcoholic";
 
   const uploadResult = await cloudinary.uploader.upload(tmpPath, {
     folder: "drinksImages",
@@ -16,7 +18,12 @@ const addOwn = async (req, res) => {
 
   await fs.unlink(tmpPath);
 
-  const result = await Drink.create({ ...req.body, owner, drinkThumb });
+  const result = await Drink.create({
+    ...req.body,
+    owner,
+    drinkThumb,
+    alcoholic,
+  });
 
   res.status(201).json(result);
 };

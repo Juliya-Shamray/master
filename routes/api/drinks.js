@@ -46,6 +46,8 @@ router.delete(
   ctrl.removeFavorite
 );
 
+router.get("/popular", authenticate, ctrl.getPopular);
+
 router.get("/:id", authenticate, isValidId, ctrl.getById);
 
 module.exports = router;
